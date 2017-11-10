@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using ABAC.Attributes;
 using ABAC.Attributes.Tests.AttributesForTest;
-using ABAC.Conditions;
 using FluentAssertions;
 using Xunit;
 
-namespace ABAC.Attributes.Tests
+namespace ABAC.Conditions.Tests
 {
-    public class TestEqualityConditionEvaluation
+    public class TestConditionEvaluation
     {
         [Fact]
         public void Should_Evaluate_With_Given_Attribute_Values()

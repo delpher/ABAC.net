@@ -5,7 +5,7 @@ using ABAC.Attributes;
 
 namespace ABAC.Conditions
 {
-    public class SubstituteAttributesWithConstantsVisitor : ExpressionVisitor
+    internal class SubstituteAttributesWithConstantsVisitor : ExpressionVisitor
     {
         private readonly IReadOnlyDictionary<string, object> _attributes;
 
@@ -16,9 +16,6 @@ namespace ABAC.Conditions
 
         protected override Expression VisitMember(MemberExpression node)
         {
-            if (node.Member.DeclaringType == null)
-                throw new NotSupportedException();
-
             if (!AttributesHelper.IsAttributesClass(node.Member.DeclaringType))
                 throw new NotSupportedException();
 

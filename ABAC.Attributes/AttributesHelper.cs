@@ -7,7 +7,8 @@ namespace ABAC.Attributes
     {
         public static bool IsAttributesClass(MemberInfo memberAccess)
         {
-            return memberAccess.CustomAttributes.Any(a => a.AttributeType == typeof(AttributesAttribute));
+            return memberAccess.CustomAttributes
+                .Any(a => a.AttributeType == typeof(AttributesAttribute));
         }
     }
 }
