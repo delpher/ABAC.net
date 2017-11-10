@@ -31,7 +31,7 @@ namespace ABAC.Attributes.Tests
             attrs.ContainsKey("User.Name").Should().BeTrue();
             attrs.ContainsKey("Document.Revision").Should().BeFalse();
 
-            object value = null;
+            object value;
             attrs.TryGetValue("User.Name", out value).Should().BeTrue();
             ((string) value).Should().Be("John");
 
@@ -39,10 +39,11 @@ namespace ABAC.Attributes.Tests
                 .Should().HaveCount(1);
 
             IEnumerable a = attrs;
-            var enumer = a.GetEnumerator();
-            enumer.MoveNext().Should().BeTrue();
-            enumer.Current.Should().BeOfType<KeyValuePair<string, object>>();
-            var kvp = (KeyValuePair<string, object>) enumer.Current;
+            var enumerator = a.GetEnumerator();
+            enumerator.MoveNext().Should().BeTrue();
+            enumerator.Current.Should().BeOfType<KeyValuePair<string, object>>();
+            enumerator.Should().NotBeNull();
+            var kvp = (KeyValuePair<string, object>) enumerator.Current;
             kvp.Key.Should().Be("User.Name");
             kvp.Value.Should().Be("John");
         }
@@ -60,8 +61,11 @@ namespace ABAC.Attributes.Tests
         [Fact]
         public void Given_Index_For_Non_String_Type_Should_Work()
         {
-            var attrs = new AttributesCollection();
-            attrs[() => Document.Revision] = 1;
+            var attrs = new AttributesCollection
+            {
+                [() => Document.Revision] = 1
+            };
+
             attrs[() => Document.Revision].Should().Be(1);
         }
 
