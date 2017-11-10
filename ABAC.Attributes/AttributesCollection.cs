@@ -11,8 +11,8 @@ namespace ABAC.Attributes
 
         public object this[Expression<Func<object>> expression]
         {
-            get => GetAttributeValue(expression);
-            set => SetAttributeValue(expression, value);
+            get { return GetAttributeValue(expression); }
+            set { SetAttributeValue(expression, value); }
         }
 
         private void SetAttributeValue(Expression<Func<object>> expression, object value)

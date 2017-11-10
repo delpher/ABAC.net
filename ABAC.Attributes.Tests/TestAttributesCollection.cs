@@ -31,7 +31,8 @@ namespace ABAC.Attributes.Tests
             attrs.ContainsKey("User.Name").Should().BeTrue();
             attrs.ContainsKey("Document.Revision").Should().BeFalse();
 
-            attrs.TryGetValue("User.Name", out var value).Should().BeTrue();
+            object value = null;
+            attrs.TryGetValue("User.Name", out value).Should().BeTrue();
             ((string) value).Should().Be("John");
 
             attrs.ToArray()
