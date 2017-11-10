@@ -60,6 +60,24 @@ namespace ABAC.Conditions.Tests
         }
 
         [Fact]
+        public void Should_Not_Evaluate_Complex_Conditions()
+        {
+            var attributes = new AttributesCollection
+            {
+                [() => User.Name] = "John",
+                [() => User.IsBlocked] = false,
+                [() => Document.Revision] = 1
+            };
+
+            var condition = new Condition(() =>
+                User.Name != "John" &&
+                User.IsBlocked &&
+                Document.Revision > 0);
+
+            condition.Evaluate(attributes).Should().BeFalse();
+        }
+
+        [Fact]
         public void Should_Throw_Not_Supported_Exception_If_Given_Members_From_Not_Atrributes_Class()
         {
             var values = new Dictionary<string, object>
