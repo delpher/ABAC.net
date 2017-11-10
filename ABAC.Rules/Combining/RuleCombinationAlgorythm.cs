@@ -13,7 +13,7 @@ namespace ABAC.Rules.Combining
         {
             return rules
                 .Select(rule => EvaluateRule(attributes, rule))
-                .Where(decision => decision != Decision.NotApplicable);
+                .Where(RuleIsApplicable);
         }
 
         private static Decision EvaluateRule(IReadOnlyDictionary<string, object> attributes, IRule rule)
@@ -21,7 +21,7 @@ namespace ABAC.Rules.Combining
             try
             {
                 if (rule.Evaluate(attributes))
-                    return RuleEffect(rule);
+                    return DecisionFromEffectOf(rule);
 
                 return Decision.NotApplicable;
             }
@@ -31,9 +31,34 @@ namespace ABAC.Rules.Combining
             }
         }
 
-        private static Decision RuleEffect(IRule rule)
+        private static Decision DecisionFromEffectOf(IRule rule)
         {
             return rule.Effect == Effect.Deny ? Decision.Deny : Decision.Permit;
+        }
+
+        protected static bool Deny(Decision decision)
+        {
+            return decision == Decision.Deny;
+        }
+
+        protected static bool Permit(Decision decision)
+        {
+            return decision == Decision.Permit;
+        }
+
+        protected bool NotApplicable(Decision decision)
+        {
+            return decision == Decision.NotApplicable;
+        }
+
+        protected bool Indeterminate(Decision decision)
+        {
+            return decision == Decision.Indeterminate;
+        }
+
+        private static bool RuleIsApplicable(Decision decision)
+        {
+            return decision != Decision.NotApplicable;
         }
     }
 }

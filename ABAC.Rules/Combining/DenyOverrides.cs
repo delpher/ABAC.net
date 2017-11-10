@@ -5,18 +5,17 @@ namespace ABAC.Rules.Combining
 {
     public class DenyOverrides : RuleCombinationAlgorythm
     {
-        public override Decision Evaluate(
-            IEnumerable<IRule> rules, IReadOnlyDictionary<string, object> attributes)
+        public override Decision Evaluate(IEnumerable<IRule> rules, IReadOnlyDictionary<string, object> attributes)
         {
             var decisions = EvaluateRules(rules, attributes).ToArray();
 
             if (!decisions.Any())
                 return Decision.NotApplicable;
 
-            if (decisions.Any(d=> d == Decision.Deny))
+            if (decisions.Any(Deny))
                 return Decision.Deny;
 
-            if (decisions.All(d => d == Decision.Permit))
+            if (decisions.All(Permit))
                 return Decision.Permit;
 
             return Decision.Indeterminate;

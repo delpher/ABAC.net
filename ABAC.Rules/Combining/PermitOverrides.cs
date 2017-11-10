@@ -12,10 +12,10 @@ namespace ABAC.Rules.Combining
             if (!decisions.Any())
                 return Decision.NotApplicable;
 
-            if (decisions.Any(decision => decision == Decision.Permit))
+            if (decisions.Any(Permit))
                 return Decision.Permit;
 
-            if (decisions.Any(decision => decision == Decision.Deny))
+            if (decisions.Any(Deny))
                 return Decision.Deny;
 
             return Decision.Indeterminate;

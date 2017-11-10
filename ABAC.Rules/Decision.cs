@@ -1,4 +1,4 @@
-﻿namespace ABAC.Rules.Combining
+﻿namespace ABAC.Rules
 {
     public enum Decision
     {
